@@ -1,4 +1,4 @@
-FROM adb-java
+FROM qaprosoft/adb-java
 
 ENV JENKINS_SLAVE_ROOT="/opt/jenkins"
 
