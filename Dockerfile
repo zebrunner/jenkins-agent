@@ -20,13 +20,7 @@ ENV JENKINS_MASTER_USERNAME="jenkins" \
     JENKINS_SLAVE_NAME="swarm-$RANDOM" \
     JENKINS_SLAVE_WORKERS="1" \
     JENKINS_SLAVE_LABELS="" \
-    AVD=""
-
-# Import Java certificate
-COPY certs/smule_qaprosoft_com.crt $JENKINS_SLAVE_ROOT/
-RUN /usr/lib/jvm/default-jvm/jre/bin/keytool -importcert -trustcacerts -alias Smule \
-	-file $JENKINS_SLAVE_ROOT/smule_qaprosoft_com.crt \
-	-keystore /usr/lib/jvm/default-jvm/jre/lib/security/cacerts -storepass changeit -noprompt  
+    AVD="" 
 
 # Install Jenkins slave (swarm)
 ADD swarm.jar /
