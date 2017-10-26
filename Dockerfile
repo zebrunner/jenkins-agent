@@ -6,7 +6,7 @@ USER root
 
 # Install some useful but optional packages
 RUN apk update \
- && apk add socat bash git maven \
+ && apk add socat bash git maven openssh \
  && rm -rf /var/lib/apt/lists /var/cache/apt
 
 RUN mkdir -p "$JENKINS_SLAVE_ROOT"
@@ -20,7 +20,7 @@ ENV JENKINS_MASTER_USERNAME="jenkins" \
     JENKINS_SLAVE_NAME="swarm-$RANDOM" \
     JENKINS_SLAVE_WORKERS="1" \
     JENKINS_SLAVE_LABELS="" \
-    AVD="" 
+    AVD=""
 
 # Install Jenkins slave (swarm)
 ADD swarm.jar /
