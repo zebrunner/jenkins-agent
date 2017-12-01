@@ -56,7 +56,7 @@ RUN touch ~/.android/repositories.cfg
 
 RUN echo y | sdkmanager "platform-tools"
 RUN echo y | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION"
-ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools
+ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION
 
 ADD files/insecure_shared_adbkey /root/.android/adbkey
 ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
