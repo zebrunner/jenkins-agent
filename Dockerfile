@@ -23,17 +23,27 @@ RUN apt-get -qqy update && \
     libqt5webkit5 \
     libgconf-2-4 \
     xvfb \
-    maven \
     socat \
     git \
     openssh-server \
   && rm -rf /var/lib/apt/lists/*
 
 #===============
-# Set JAVA_HOME
+# Install Maven 3.5.2
+#===============
+RUN cd /opt && \
+    wget https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.zip && \
+    unzip apache-maven-3.5.2-bin.zip && \
+    rm apache-maven-3.5.2-bin.zip && \
+    mv apache-maven-3.5.2/ maven/
+
+#===============
+# Set JAVA_HOME and M2_HOME
 #===============
 ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre" \
-    PATH=$PATH:$JAVA_HOME/bin
+    M2_HOME="/opt/maven" \
+    MAVEN_HOME="/opt/maven" \
+    PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
 
 #=====================
 # Install Android SDK
