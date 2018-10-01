@@ -42,8 +42,8 @@ RUN cd /opt && \
 #===============
 ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre" \
     M2_HOME="/opt/maven" \
-    MAVEN_HOME="/opt/maven" \
-    PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
+    MAVEN_HOME="/opt/maven"
+ENV PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
 
 #=====================
 # Install Android SDK
