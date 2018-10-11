@@ -76,9 +76,6 @@ ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 #===============
 RUN apt-get -qqy update && \
     apt-get -qqy install awscli
-    
-RUN mkdir -p "$JENKINS_SLAVE_ROOT"
-RUN mkdir -p /opt/apk
 
 #======================
 # Install Jenkins swarm
@@ -86,6 +83,9 @@ RUN mkdir -p /opt/apk
 ENV JENKINS_SLAVE_ROOT="/opt/jenkins"
 
 USER root
+    
+RUN mkdir -p "$JENKINS_SLAVE_ROOT"
+RUN mkdir -p /opt/apk
 
 # Slave settings
 ENV JENKINS_MASTER_USERNAME="jenkins" \
