@@ -71,16 +71,11 @@ ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/$ANDROID_B
 ADD files/insecure_shared_adbkey /root/.android/adbkey
 ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 
-#=========================
-# Install AWScli & Python3
-#=========================
+#===============
+# Install AWScli
+#===============
 RUN apt-get update && \
-    apt-get install -y \
-        python3 \
-        python3-pip \
-    && pip3 install --upgrade pip \
-    && apt-get clean
-RUN pip3 --no-cache-dir install --upgrade awscli
+    apt-get install awscli
 
 #======================
 # Install Jenkins swarm
