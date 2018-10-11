@@ -71,9 +71,9 @@ ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/$ANDROID_B
 ADD files/insecure_shared_adbkey /root/.android/adbkey
 ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 
-#======================
+#=========================
 # Install AWScli & Python3
-#======================
+#=========================
 RUN apt-get update && \
     apt-get install -y \
         python3 \
