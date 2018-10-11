@@ -71,20 +71,21 @@ ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/$ANDROID_B
 ADD files/insecure_shared_adbkey /root/.android/adbkey
 ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 
+#===============
+# Install AWScli
+#===============
+RUN apt-get -qqy update && \
+    apt-get -qqy install awscli
+    
+RUN mkdir -p "$JENKINS_SLAVE_ROOT"
+RUN mkdir -p /opt/apk
+
 #======================
 # Install Jenkins swarm
 #======================
 ENV JENKINS_SLAVE_ROOT="/opt/jenkins"
 
 USER root
-
-#===============
-# Install AWScli
-#===============
-RUN apt-get update && \
-    apt-get install awscli
-RUN mkdir -p "$JENKINS_SLAVE_ROOT"
-RUN mkdir -p /opt/apk
 
 # Slave settings
 ENV JENKINS_MASTER_USERNAME="jenkins" \
