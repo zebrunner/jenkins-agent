@@ -72,6 +72,21 @@ ADD files/insecure_shared_adbkey /root/.android/adbkey
 ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 
 #======================
+# Install AWScli & Python3
+#======================
+RUN apt-get update && \
+    apt-get install -y \
+        python3 \
+        python3-pip \
+        python3-setuptools \
+        groff \
+        less \
+    && pip3 install --upgrade pip \
+    && apt-get clean
+
+RUN pip3 --no-cache-dir install --upgrade awscli
+
+#======================
 # Install Jenkins swarm
 #======================
 ENV JENKINS_SLAVE_ROOT="/opt/jenkins"
