@@ -75,18 +75,18 @@ ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 # Install Python3 & Pip3
 #========================
 RUN apt-get -qqy update && \
-    apt-get -qqy install python3-pip
+    apt-get -qqy install python-pip
 
 #===============
 # Install AWScli
 #===============
-RUN pip3 install awscli
+RUN pip install awscli
 
 #===============
 # Install Mkdocs
 #===============
-RUN pip3 install mkdocs && \
-    pip3 install mkdocs-material
+RUN pip install mkdocs && \
+    pip install mkdocs-material
 
 #======================
 # Install Jenkins swarm
