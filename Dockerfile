@@ -26,6 +26,7 @@ RUN apt-get -qqy update && \
     socat \
     git \
     openssh-server \
+    dnsutils \
   && rm -rf /var/lib/apt/lists/*
 
 #===============
