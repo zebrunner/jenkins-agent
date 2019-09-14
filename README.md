@@ -1,31 +1,39 @@
-# Jenkins slave with Android SDK for Docker [![](https://images.microbadger.com/badges/image/thedrhax/jenkins-slave-android.svg)](https://hub.docker.com/r/thedrhax/jenkins-slave-android)
+# QPS-Infra Jenkins slave
 
-This image extends [thedrhax/android-sdk](https://hub.docker.com/r/thedrhax/android-sdk) with Jenkins Swarm module.
+## Overview
+This is official [qps-infra](https://github.com/qaprosoft/qps-infra) slave image. 
 
 ## Example
 
-The command listed below will start a slave named "test" that will try to connect to Jenkins located at http://jenkins:8080/ using `jenkins` as login and password. You can change these settings by overriding variables listed below.
-
+Declare for each slave machine any number of labelled slaves
+### Jenkins master variables ([variables.env](https://github.com/qaprosoft/qps-infra/blob/7d59b4c6f3854a04baf2884756498822dd39ec37/variables.env.original#L87))
 ```
-docker run -it --rm --name slave -e JENKINS_SLAVE_NAME="test" thedrhax/jenkins-slave-android
+# JENKINS SLAVE
+JENKINS_MASTER_USERNAME=admin
+JENKINS_MASTER_PASSWORD=changeit
+JENKINS_MASTER_URL=http://jenkins-master:8080/jenkins
 ```
-
-# Advanced options
+### Docker composer declaration
+```
+  jenkins-slave:
+    image: qaprosoft/jenkins-slave
+    env_file:
+     - variables.env
+    environment:
+     - JENKINS_SLAVE_NAME=jenkins-slave
+     - JENKINS_SLAVE_WORKERS=5
+     - JENKINS_SLAVE_LABELS=qps-slave api web qa
+    volumes:
+     - $HOME/.ssh:/root/.ssh
+     - $HOME/.m2:/root/.m2
+    ports:
+     - "8001:8000"
+    restart: always
+```
+For detailes visit https://github.com/qaprosoft/qps-infra/blob/7d59b4c6f3854a04baf2884756498822dd39ec37/docker-compose.yml#L63
 
 ## Setting up master Jenkins
 
 * Install the [Swarm Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin).
 * Make sure that port 50000 of master will be accessible for this slave.
 * [optional] Create separate account and allow it to create slaves or just use your account.
-
-## Slave configuration variables (optional)
-
-* `-e JENKINS_MASTER_USERNAME=jenkins` — username for logging into Jenkins
-* `-e JENKINS_MASTER_PASSWORD=jenkins` — password for user specified above
-* `-e JENKINS_MASTER_URL=http://jenkins:8080/` — URL of Jenkins
-
-* `-e JENKINS_SLAVE_MODE=exclusive` — `exclusive` or `normal` are allowed. [[more info]](https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin)
-* `-e JENKINS_SLAVE_NAME=swarm-$RANDOM` — name of slave displayed in Jenkins
-* `-e JENKINS_SLAVE_WORKERS=1` — number of simultaneously running tasks
-* `-e JENKINS_SLAVE_LABELS` — slave labels which can be used in Jenkins
-* `-e AVD=ip_of_avd_container:5555` — attach the running [AVD container](https://github.com/TheDrHax/docker-android-avd) to perform the instrumentation testing
