@@ -32,8 +32,6 @@ JENKINS_MASTER_URL=http://jenkins-master:8080/jenkins
 ```
 For detailes visit https://github.com/qaprosoft/qps-infra/blob/7d59b4c6f3854a04baf2884756498822dd39ec37/docker-compose.yml#L63
 
-# Advanced options
-
 ## Setting up master Jenkins
 
 * Install the [Swarm Plugin](https://wiki.jenkins-ci.org/display/JENKINS/Swarm+Plugin).
