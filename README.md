@@ -1,4 +1,5 @@
-# Jenkins slave based on Ubuntu 16.04
+# QPS-Infra Jenkins slave
+
 ## Overview
 This is official [qps-infra](https://github.com/qaprosoft/qps-infra) slave image. 
 
