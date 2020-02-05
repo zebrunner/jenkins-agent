@@ -27,7 +27,15 @@ RUN apt-get -qqy update && \
     git \
     openssh-server \
     dnsutils \
+    apt-transport-https \
+    software-properties-common \
   && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get update
+RUN apt-get install -y docker-ce
+# RUN usermod -aG docker $USER
 
 #===============
 # Install Maven 3.5.2
@@ -102,6 +110,5 @@ ENV LC_ALL en_US.UTF-8
 # Install Jenkins slave (swarm)
 ADD swarm.jar /
 ADD entrypoint.sh /
-
 
 ENTRYPOINT /entrypoint.sh
