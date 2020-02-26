@@ -33,7 +33,7 @@ RUN rm -rf /var/lib/apt/lists/*
 #===============
 # Install Docker
 #===============
-RUN apk add docker
+RUN apk add --no-cache docker openrc
 RUN rc-update add docker boot
 RUN service docker start
 
