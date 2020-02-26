@@ -12,7 +12,7 @@ WORKDIR /root
 #==================
 # General Packages
 #==================
-RUN apk add --update --no-cache \
+RUN apk add --no-cache \
     openjdk8 \
     ca-certificates \
     tzdata \
