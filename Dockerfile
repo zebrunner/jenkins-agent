@@ -98,4 +98,4 @@ ADD swarm.jar /
 COPY ./entrypoint.sh entrypoint.sh
 
 #ADD entrypoint.sh /
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT entrypoint.sh
