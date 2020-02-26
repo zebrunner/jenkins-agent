@@ -20,12 +20,12 @@ RUN apk add --no-cache \
     curl \
     wget \
     qt5-qtbase-dev \
-    #libgconf-2-4 \
     xvfb-run \
     socat \
     git \
     openssh \
     bind-tools
+#    libgconf-2-4
 #    apt-transport-https
 #    software-properties-common
 RUN rm -rf /var/lib/apt/lists/*
@@ -97,5 +97,6 @@ ADD swarm.jar /
 
 COPY ./entrypoint.sh entrypoint.sh
 
-#ADD entrypoint.sh /
-ENTRYPOINT entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/
+RUN ln -s /usr/local/bin/entrypoint.sh /
+ENTRYPOINT ["entrypoint.sh"]
