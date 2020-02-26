@@ -13,22 +13,22 @@ WORKDIR /root
 # General Packages
 #==================
 RUN apk add --update --no-cache \
-    openjdk-8-jdk \
+    openjdk8 \
     ca-certificates \
     tzdata \
     unzip \
     curl \
     wget \
-    libqt5webkit5 \
-    libgconf-2-4 \
-    xvfb \
+    qt5-qtbase-dev \
+    #libgconf-2-4 \
+    xvfb-run \
     socat \
     git \
-    openssh-server \
-    dnsutils \
-    apt-transport-https \
-    software-properties-common \
-  && rm -rf /var/lib/apt/lists/*
+    openssh \
+    bind-tools \
+    apt-transport-https
+#    software-properties-common
+RUN rm -rf /var/lib/apt/lists/*
 
 #===============
 # Install Docker
