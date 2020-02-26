@@ -95,5 +95,5 @@ ENV LANG=en_US.UTF-8 \
 # Install Jenkins slave (swarm)
 ADD swarm.jar /
 
-COPY resources/scripts/mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
-RUN /usr/local/bin/mvn-entrypoint.sh
+COPY resources/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN /usr/local/bin/entrypoint.sh
