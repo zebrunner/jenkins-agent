@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM alpine:3.9.6
 
 LABEL maintainer "Alex Khursevich <alex@qaprosoft.com>"
 
@@ -12,8 +12,7 @@ WORKDIR /root
 #==================
 # General Packages
 #==================
-RUN apt-get -qqy update && \
-    apt-get -qqy --no-install-recommends install \
+RUN apk add --update --no-cache \
     openjdk-8-jdk \
     ca-certificates \
     tzdata \
@@ -31,11 +30,12 @@ RUN apt-get -qqy update && \
     software-properties-common \
   && rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-RUN apt-get update
-RUN apt-get install -y docker-ce
-# RUN usermod -aG docker $USER
+#===============
+# Install Docker
+#===============
+RUN apk add docker
+RUN rc-update add docker boot
+RUN service docker start
 
 #===============
 # Install Maven 3.5.2
@@ -53,32 +53,6 @@ ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre" \
     M2_HOME="/opt/maven" \
     MAVEN_HOME="/opt/maven"
 ENV PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
-
-#=====================
-# Install Android SDK
-#=====================
-ARG SDK_VERSION=sdk-tools-linux-3859397
-ARG ANDROID_BUILD_TOOLS_VERSION=26.0.0
-ENV SDK_VERSION=$SDK_VERSION \
-    ANDROID_BUILD_TOOLS_VERSION=$ANDROID_BUILD_TOOLS_VERSION \
-    ANDROID_HOME=/root
-
-RUN wget -O tools.zip https://dl.google.com/android/repository/${SDK_VERSION}.zip && \
-    unzip tools.zip && rm tools.zip && \
-    chmod a+x -R $ANDROID_HOME && \
-    chown -R root:root $ANDROID_HOME
-ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin
-
-# https://askubuntu.com/questions/885658/android-sdk-repositories-cfg-could-not-be-loaded
-RUN mkdir -p ~/.android
-RUN touch ~/.android/repositories.cfg
-
-RUN echo y | sdkmanager "platform-tools"
-RUN echo y | sdkmanager "build-tools;$ANDROID_BUILD_TOOLS_VERSION"
-ENV PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VERSION
-
-ADD files/insecure_shared_adbkey /root/.android/adbkey
-ADD files/insecure_shared_adbkey.pub /root/.android/adbkey.pub
 
 #======================
 # Install Jenkins swarm
@@ -101,11 +75,23 @@ ENV JENKINS_MASTER_USERNAME="jenkins" \
     AVD=""
 
 # Install locales and declare en_US.UTF-8 by default
-RUN apt-get clean && apt-get update && apt-get install -y locales
-RUN locale-gen en_US.UTF-8 
-ENV LANG en_US.UTF-8 
-ENV LANGUAGE en_US:en 
-ENV LC_ALL en_US.UTF-8
+
+# Install language pack
+RUN apk --no-cache add ca-certificates wget && \
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-2.25-r0.apk && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-bin-2.25-r0.apk && \
+    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.25-r0/glibc-i18n-2.25-r0.apk && \
+    apk add glibc-bin-2.25-r0.apk glibc-i18n-2.25-r0.apk glibc-2.25-r0.apk
+
+# Iterate through all locale and install it
+COPY ./locale.md /locale.md
+RUN cat locale.md | xargs -i /usr/glibc-compat/bin/localedef -i {} -f UTF-8 {}.UTF-8
+
+# Set the lang, you can also specify it as as environment variable through docker-compose.yml
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8\
+    LC_ALL=en_US.UTF-8
 
 # Install Jenkins slave (swarm)
 ADD swarm.jar /
