@@ -25,8 +25,8 @@ RUN apk add --no-cache \
     socat \
     git \
     openssh \
-    bind-tools \
-    apt-transport-https --arch=amd64
+    bind-tools
+#    apt-transport-https
 #    software-properties-common
 RUN rm -rf /var/lib/apt/lists/*
 
