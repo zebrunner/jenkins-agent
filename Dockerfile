@@ -35,7 +35,6 @@ RUN rm -rf /var/lib/apt/lists/*
 #===============
 RUN apk add --no-cache docker openrc
 RUN rc-update add docker boot
-RUN service docker start
 
 #===============
 # Install Maven 3.5.2
