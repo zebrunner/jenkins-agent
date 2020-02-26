@@ -1,4 +1,4 @@
-FROM alpine:3.9.6
+FROM alpine:3.11.3
 
 LABEL maintainer "Alex Khursevich <alex@qaprosoft.com>"
 
