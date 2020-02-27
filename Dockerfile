@@ -97,4 +97,4 @@ ADD swarm.jar /
 ADD entrypoint.sh /
 RUN ls -la /entrypoint.sh
 
-ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+ENTRYPOINT ["~/entrypoint.sh"]
