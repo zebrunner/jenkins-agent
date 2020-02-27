@@ -95,5 +95,6 @@ ENV LANG=en_US.UTF-8 \
 # Install Jenkins slave (swarm)
 ADD swarm.jar /
 ADD entrypoint.sh /
+RUN ls -la /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh
