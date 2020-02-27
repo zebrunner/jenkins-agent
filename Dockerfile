@@ -49,7 +49,7 @@ RUN cd /opt && \
 #===============
 # Set JAVA_HOME and M2_HOME
 #===============
-ENV JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre" \
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/" \
     M2_HOME="/opt/maven" \
     MAVEN_HOME="/opt/maven"
 ENV PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
