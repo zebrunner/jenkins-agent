@@ -1,0 +1,19 @@
+FROM adoptopenjdk/openjdk8:alpine
+
+ENV GRADLE_HOME /opt/gradle
+ENV GRADLE_VERSION 6.2.2
+
+ARG GRADLE_DOWNLOAD_SHA256=0f6ba231b986276d8221d7a870b4d98e0df76e6daf1f42e7c0baec5032fb7d17
+RUN set -o errexit -o nounset \
+    && echo "Downloading Gradle" \
+    && wget -qO gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" \
+    \
+    && echo "Checking download hash" \
+    && echo "${GRADLE_DOWNLOAD_SHA256} *gradle.zip" | sha256sum -c - \
+    \
+    && echo "Installing Gradle" \
+    && unzip gradle.zip \
+    && rm gradle.zip \
+    && mkdir -p /opt \
+    && mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
+    && ln -s "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle 

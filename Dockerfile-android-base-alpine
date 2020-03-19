@@ -1,6 +1,4 @@
-# TODO: from alpine image with gradle and openjdk8
-FROM adoptopenjdk/openjdk8:alpine
-LABEL maintainer="Max Golokhov"
+FROM qaprosoft:gradle-alpine
 
 ENV SDK_TOOLS "4333796"
 ENV ANDROID_HOME "/opt/sdk"
@@ -8,9 +6,6 @@ ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platfor
 
 # Install required dependencies
 RUN apk add --no-cache bash git unzip wget && \
-    # TODO: temporary 
-    apk add --no-cache gradle && \
-    apk add --virtual .rundeps $runDeps && \
     rm -rf /tmp/* && \
     rm -rf /var/cache/apk/*
 
@@ -28,10 +23,3 @@ RUN mkdir -p ~/.android/ && touch ~/.android/repositories.cfg && \
 
 WORKDIR /home/android
 
-# TODO: move to another image
-
-ENV BUILD_TOOLS "28.0.3"
-ENV TARGET_SDK "28"
-
-# Install SDK Packages
-RUN ${ANDROID_HOME}/tools/bin/sdkmanager "build-tools;${BUILD_TOOLS}" "platforms;android-${TARGET_SDK}"
