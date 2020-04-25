@@ -35,13 +35,14 @@ RUN apk add --no-cache docker openrc
 RUN rc-update add docker boot
 
 #===============
-# Install Maven 3.5.2
+# Install Maven 3.6.3
 #===============
+ARG MAVEN_VERSION=3.6.3
 RUN cd /opt && \
-    wget https://archive.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.zip && \
-    unzip apache-maven-3.5.2-bin.zip && \
-    rm apache-maven-3.5.2-bin.zip && \
-    mv apache-maven-3.5.2/ maven/
+    wget https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.zip && \
+    unzip apache-maven-${MAVEN_VERSION}-bin.zip && \
+    rm apache-maven-${MAVEN_VERSION}-bin.zip && \
+    mv apache-maven-${MAVEN_VERSION}/ maven/
 
 #===============
 # Set JAVA_HOME and M2_HOME
@@ -50,6 +51,22 @@ ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk/" \
     M2_HOME="/opt/maven" \
     MAVEN_HOME="/opt/maven"
 ENV PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
+
+#===============
+# Clone and install carina dependenices
+#===============
+RUN cd /opt && \
+    git clone --single-branch --branch master https://github.com/qaprosoft/carina && \
+    cd carina && \
+    mvn -U clean install
+
+#===============
+# Clone and install carina-demo dependenices
+#===============
+RUN cd /opt && \
+    git clone --single-branch --branch master https://github.com/qaprosoft/carina-demo && \
+    cd carina-demo && \
+    mvn -U clean install
 
 #======================
 # Install Jenkins swarm
