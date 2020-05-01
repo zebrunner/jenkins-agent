@@ -1,0 +1,99 @@
+FROM ubuntu:18.04
+
+LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+#=============
+# Set WORKDIR
+#=============
+WORKDIR /root
+
+
+#==================
+# General Packages
+#==================
+RUN apt-get -qqy update && \
+    apt-get -qqy --no-install-recommends install \
+      tzdata \
+      unzip \
+      curl \
+      wget \
+      git \
+      openssh-server \
+      dnsutils \
+      apt-transport-https \
+      software-properties-common \
+  && rm -rf /var/lib/apt/lists/*
+
+#==================
+# Terraform
+#==================
+ARG TF_VERSION=0.12.24
+RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TF_VERSION}_linux_amd64.zip && \
+    mv terraform /usr/local/bin && \
+    terraform --version  && \
+    rm terraform_${TF_VERSION}_linux_amd64.zip
+
+#==================
+# Keybase
+#==================
+RUN apt-get -qqy update && \
+    apt-get -qqy --no-install-recommends install \
+      apt-utils \
+      libappindicator1 \
+      fuse \
+      libgconf-2-4 \
+      psmisc \
+      lsof \
+      libasound2 \
+      libnss3 \
+      libxss1 \
+      libxtst6 \
+      libgtk-3-0 \
+      gpg-agent
+
+ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+RUN curl -s https://keybase.io/docs/server_security/code_signing_key.asc | apt-key add -
+
+RUN wget https://prerelease.keybase.io/keybase_amd64.deb && \
+    apt-get -qqy install ./keybase_amd64.deb && \
+    rm ./keybase_amd64.deb
+
+#======================
+# Install Jenkins swarm
+#======================
+ENV JENKINS_SLAVE_ROOT="/opt/jenkins"
+
+USER root
+
+#==================
+# UTF-8 locales
+#==================
+RUN apt-get clean && apt-get update && apt-get install -y locales && \
+    locale-gen en_US.UTF-8
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+    
+RUN mkdir -p "$JENKINS_SLAVE_ROOT"
+RUN mkdir -p /opt/apk
+
+# Slave settings
+ENV JENKINS_MASTER_USERNAME="jenkins" \
+    JENKINS_MASTER_PASSWORD="jenkins" \
+    JENKINS_MASTER_URL="http://jenkins:8080/" \
+    JENKINS_SLAVE_MODE="exclusive" \
+    JENKINS_SLAVE_NAME="swarm-$RANDOM" \
+    JENKINS_SLAVE_WORKERS="1" \
+    JENKINS_SLAVE_LABELS="" \
+    AVD=""
+
+# Install Jenkins slave (swarm)
+ADD swarm.jar /
+ADD entrypoint.sh /
+
+ENTRYPOINT /entrypoint.sh
