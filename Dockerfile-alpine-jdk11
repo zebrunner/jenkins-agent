@@ -64,6 +64,16 @@ RUN apk --no-cache add \
     && rm glibc-bin-${GLIBC_VER}.apk \
     && rm -rf /var/cache/apk/*
 
+#==================	
+# Terraform	
+#==================	
+ARG TF_VERSION=0.12.24	
+RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip && \	
+    unzip terraform_${TF_VERSION}_linux_amd64.zip && \	
+    mv terraform /usr/local/bin && \	
+    terraform --version  && \	
+    rm terraform_${TF_VERSION}_linux_amd64.zip
+
 #===============
 # Install Maven 3.6.3
 #===============
