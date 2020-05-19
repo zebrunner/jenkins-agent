@@ -25,7 +25,9 @@ RUN apk add --no-cache \
     socat \
     git \
     openssh \
-    bind-tools
+    bind-tools \
+    gcc \
+    musl-dev
 RUN rm -rf /var/lib/apt/lists/*
 
 #===============
@@ -67,12 +69,23 @@ RUN apk --no-cache add \
 #==================	
 # Terraform	
 #==================	
-ARG TF_VERSION=0.12.24	
+ARG TF_VERSION=0.12.25
 RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip && \	
     unzip terraform_${TF_VERSION}_linux_amd64.zip && \	
     mv terraform /usr/local/bin && \	
     terraform --version  && \	
     rm terraform_${TF_VERSION}_linux_amd64.zip
+
+#===============
+# Install Mkdocs
+#===============
+RUN apk add --update python3 python3-dev \
+  && pip3 install --no-cache-dir --upgrade --force-reinstall pip \
+  && rm /var/cache/apk/*
+
+RUN python3 --version
+RUN pip3 --version
+RUN pip3 install mkdocs mkdocs-material
 
 #===============
 # Install Maven 3.6.3
