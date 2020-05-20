@@ -24,6 +24,7 @@ RUN apk add --no-cache \
     xvfb-run \
     socat \
     git \
+    git-fast-import \
     openssh \
     bind-tools \
     gcc \
