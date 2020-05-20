@@ -28,14 +28,15 @@ RUN apk add --no-cache \
     openssh \
     bind-tools \
     gcc \
-    musl-dev
-RUN rm -rf /var/lib/apt/lists/*
+    musl-dev \
+    gnupg && \
+  rm -rf /var/lib/apt/lists/*
 
 #===============
 # Install Docker
 #===============
-RUN apk add --no-cache docker openrc
-RUN rc-update add docker boot
+RUN apk add --no-cache docker openrc \
+    && rc-update add docker boot
 
 #========================
 # Install aws cli
@@ -120,11 +121,8 @@ RUN cd /opt && \
 RUN cd /opt && \
     git clone --single-branch --branch master https://github.com/qaprosoft/carina-demo && \
     cd carina-demo && \
-    mvn -U clean compile install -DskipTests
-
-# remove carina and carina-demo sources
-RUN cd /opt && \
-    rm -rf carina carina-demo
+    mvn -U clean compile install -DskipTests && \
+    rm -rf /opt/carina /opt/carina-demo
 
 #======================
 # Install Jenkins swarm

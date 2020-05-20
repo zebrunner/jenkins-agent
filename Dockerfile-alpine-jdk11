@@ -28,14 +28,15 @@ RUN apk add --no-cache \
     openssh \
     bind-tools \
     gcc \
-    musl-dev
-RUN rm -rf /var/lib/apt/lists/*
+    musl-dev \
+    gnupg && \
+  rm -rf /var/lib/apt/lists/*
 
 #===============
 # Install Docker
 #===============
-RUN apk add --no-cache docker openrc
-RUN rc-update add docker boot
+RUN apk add --no-cache docker openrc \
+    && rc-update add docker boot
 
 #========================
 # Install aws cli
