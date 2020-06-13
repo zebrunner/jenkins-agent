@@ -38,6 +38,13 @@ RUN apk add --no-cache \
 RUN apk add --no-cache docker openrc \
     && rc-update add docker boot
 
+#==================
+# Install kubectl
+#==================
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+	mv kubectl /usr/local/bin/ && \
+	chmod +x /usr/local/bin/kubectl
+
 #========================
 # Install aws cli
 #========================
