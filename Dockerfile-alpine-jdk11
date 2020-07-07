@@ -29,7 +29,8 @@ RUN apk add --no-cache \
     bind-tools \
     gcc \
     musl-dev \
-    gnupg && \
+    gnupg \
+    lsof && \
   rm -rf /var/lib/apt/lists/*
 
 #===============
