@@ -29,6 +29,7 @@ RUN apt-get -qqy update && \
     dnsutils \
     apt-transport-https \
     software-properties-common \
+    lsof \
   && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
