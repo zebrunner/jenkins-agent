@@ -115,6 +115,23 @@ ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk" \
     MAVEN_HOME="/opt/maven"
 ENV PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
 
+#===============
+# Clone and install carina dependenices
+#===============
+RUN cd /opt && \
+    git clone --single-branch --branch master https://github.com/qaprosoft/carina && \
+    cd carina && \
+    mvn -U clean compile install -DskipTests
+
+#===============
+# Clone and install carina-demo dependenices
+#===============
+RUN cd /opt && \
+    git clone --single-branch --branch master https://github.com/qaprosoft/carina-demo && \
+    cd carina-demo && \
+    mvn -U clean compile install -DskipTests && \
+    rm -rf /opt/carina /opt/carina-demo
+
 #======================
 # Install Jenkins swarm
 #======================
