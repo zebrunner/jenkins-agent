@@ -1,6 +1,6 @@
 FROM alpine:3.11.3
 
-LABEL maintainer "Ilya Varchenya <ivarchenya@solvd.com>"
+LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
