@@ -20,16 +20,11 @@ RUN apk add --no-cache \
     unzip \
     curl \
     wget \
-    qt5-qtbase-dev \
     xvfb-run \
-    socat \
     git \
     git-fast-import \
     openssh \
     bind-tools \
-    gcc \
-    musl-dev \
-    gnupg \
     lsof && \
   rm -rf /var/lib/apt/lists/*
 
@@ -39,98 +34,11 @@ RUN apk add --no-cache \
 RUN apk add --no-cache docker openrc \
     && rc-update add docker boot
 
-#==================
-# Install kubectl
-#==================
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
-        mv kubectl /usr/local/bin/ && \
-        chmod +x /usr/local/bin/kubectl
-
-##========================
-## Install aws cli
-##========================
-#ENV GLIBC_VER=2.31-r0
-## install glibc compatibility for alpine
-#RUN apk --no-cache add \
-#        binutils \
-#        curl \
-#    && curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub \
-#    && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-${GLIBC_VER}.apk \
-#    && curl -sLO https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VER}/glibc-bin-${GLIBC_VER}.apk \
-#    && apk add --no-cache \
-#        glibc-${GLIBC_VER}.apk \
-#        glibc-bin-${GLIBC_VER}.apk \
-#    && curl -sL https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip \
-#    && unzip awscliv2.zip \
-#    && aws/install \
-#    && rm -rf \
-#        awscliv2.zip \
-#        aws \
-#        /usr/local/aws-cli/v2/*/dist/aws_completer \
-#        /usr/local/aws-cli/v2/*/dist/awscli/data/ac.index \
-#        /usr/local/aws-cli/v2/*/dist/awscli/examples \
-#    && apk --no-cache del \
-#        binutils \
-#        curl \
-#    && rm glibc-${GLIBC_VER}.apk \
-#    && rm glibc-bin-${GLIBC_VER}.apk \
-#    && rm -rf /var/cache/apk/*
-
-##==================	
-## Terraform	
-##==================	
-#ARG TF_VERSION=0.12.25
-#RUN wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip && \	
-#    unzip terraform_${TF_VERSION}_linux_amd64.zip && \	
-#    mv terraform /usr/local/bin && \	
-#    terraform --version  && \	
-#    rm terraform_${TF_VERSION}_linux_amd64.zip
-
-##===============
-## Install Mkdocs
-##===============
-#RUN apk add --update python3 python3-dev \
-#  && pip3 install --no-cache-dir --upgrade --force-reinstall pip \
-#  && rm /var/cache/apk/*
-
-#RUN python3 --version
-#RUN pip3 --version
-#RUN pip3 install mkdocs mkdocs-material
-
 #===============
-# Install Maven 3.6.3
+# Set JAVA_HOME
 #===============
-ARG MAVEN_VERSION=3.6.3
-RUN cd /opt && \
-    wget https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.zip && \
-    unzip apache-maven-${MAVEN_VERSION}-bin.zip && \
-    rm apache-maven-${MAVEN_VERSION}-bin.zip && \
-    mv apache-maven-${MAVEN_VERSION}/ maven/
-
-#===============
-# Set JAVA_HOME and M2_HOME
-#===============
-ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk" \
-    M2_HOME="/opt/maven" \
-    MAVEN_HOME="/opt/maven"
-ENV PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
-
-##===============
-## Clone and install carina dependenices
-##===============
-#RUN cd /opt && \
-#    git clone --single-branch --branch master https://github.com/qaprosoft/carina && \
-#    cd carina && \
-#    mvn -U clean compile install -DskipTests
-
-#===============
-# Clone and install carina-demo dependenices
-#===============
-RUN cd /opt && \
-    git clone --single-branch --branch master https://github.com/qaprosoft/carina-demo && \
-    cd carina-demo && \
-    mvn -U clean compile install -DskipTests && \
-    rm -rf /opt/carina /opt/carina-demo
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
+ENV PATH=$PATH:$JAVA_HOME/bin
 
 #======================
 # Install Jenkins swarm
