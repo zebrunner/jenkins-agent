@@ -15,24 +15,24 @@ WORKDIR /root
 RUN apk add --no-cache \
     bash \
     openjdk11 \
-    ca-certificates \
     tzdata \
-    unzip \
-    curl \
-    wget \
-    xvfb-run \
     git \
     git-fast-import \
-    openssh \
+#    openssh \
     bind-tools \
     lsof && \
-  rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-11-openjdk/demo /usr/lib/jvm/java-11-openjdk/man /usr/lib/jvm/java-11-openjdk/jre/demo /usr/lib/jvm/java-11-openjdk/jre/man
 
-#===============
-# Install Docker
-#===============
-RUN apk add --no-cache docker openrc \
-    && rc-update add docker boot
+# ADB part
+RUN apk add \
+    android-tools \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+##===============
+## Install Docker
+##===============
+#RUN apk add --no-cache docker openrc \
+#    && rc-update add docker boot
 
 #===============
 # Set JAVA_HOME

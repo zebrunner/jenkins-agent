@@ -15,24 +15,23 @@ WORKDIR /root
 RUN apk add --no-cache \
     bash \
     openjdk8 \
-    ca-certificates \
     tzdata \
-    unzip \
-    curl \
-    wget \
-    xvfb-run \
     git \
     git-fast-import \
-    openssh \
     bind-tools \
     lsof && \
   rm -rf /var/lib/apt/lists/*
 
-#===============
-# Install Docker
-#===============
-RUN apk add --no-cache docker openrc \
-    && rc-update add docker boot
+# ADB part
+RUN apk add \
+    android-tools \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+##===============
+## Install Docker
+##===============
+#RUN apk add --no-cache docker openrc \
+#    && rc-update add docker boot
 
 #===============
 # Set JAVA_HOME
