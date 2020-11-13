@@ -1,0 +1,22 @@
+FROM jenkins/inbound-agent:latest
+
+LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+USER root
+
+#=============
+# Set WORKDIR
+#=============
+WORKDIR /root
+
+#==================
+# General Packages
+#==================
+RUN apt-get -qqy update && \
+	apt-get -qqy --no-install-recommends install lsof android-tools-adb
+
+USER ${user}
+WORKDIR /home/${user}
+ENTRYPOINT ["jenkins-agent"]
