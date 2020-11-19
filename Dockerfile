@@ -16,6 +16,7 @@ RUN apk add --no-cache \
     bash \
     openjdk11 \
     tzdata \
+    curl \
     git \
     git-fast-import \
 #    openssh \
