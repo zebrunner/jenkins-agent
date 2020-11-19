@@ -15,6 +15,7 @@ WORKDIR /root
 RUN apk add --no-cache \
     bash \
     tzdata \
+    curl \
     git \
     git-fast-import \
 #    openssh \
