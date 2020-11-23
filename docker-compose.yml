@@ -1,0 +1,14 @@
+version: '3.7'
+networks:
+  default:
+    external:
+      name: infra
+services:
+  jenkins-slave:
+    image: "zebrunner/jenkins-slave:${TAG_JENKINS_SLAVE}"
+    container_name: jenkins-slave
+    env_file:
+      - variables.env
+    ports:
+     - "8000:8000"
+    restart: always
