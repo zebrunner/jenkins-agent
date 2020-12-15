@@ -14,6 +14,7 @@ WORKDIR /root
 #==================
 RUN apk add --no-cache \
     bash \
+    openjdk11 \
     tzdata \
     curl \
     git \
@@ -28,6 +29,12 @@ RUN apk add --no-cache \
 #===============
 RUN apk add --no-cache docker openrc \
     && rc-update add docker boot
+
+#===============
+# Set JAVA_HOME
+#===============
+ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
+ENV PATH=$PATH:$JAVA_HOME/bin
 
 #======================
 # Install Jenkins swarm
