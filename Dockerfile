@@ -19,7 +19,7 @@ RUN apk add --no-cache \
     curl \
     git \
     git-fast-import \
-#    openssh \
+    openssh-client \
     bind-tools \
     lsof && \
     rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-11-openjdk/demo /usr/lib/jvm/java-11-openjdk/man /usr/lib/jvm/java-11-openjdk/jre/demo /usr/lib/jvm/java-11-openjdk/jre/man
