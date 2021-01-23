@@ -1,4 +1,4 @@
-FROM alpine:3.11.3
+FROM alpine:edge
 
 LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
 
@@ -19,10 +19,16 @@ RUN apk add --no-cache \
     curl \
     git \
     git-fast-import \
-#    openssh \
+    openssh-client \
     bind-tools \
+    gnupg \
     lsof && \
     rm -rf /var/lib/apt/lists/*
+
+# kubectl 
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
+    kubectl version --client
 
 #===============
 # Install Docker
