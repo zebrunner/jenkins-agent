@@ -1,4 +1,4 @@
-FROM alpine:3.11.3
+FROM alpine:edge
 
 LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
 
@@ -21,6 +21,7 @@ RUN apk add --no-cache \
     git-fast-import \
     openssh-client \
     bind-tools \
+    gnupg \
     lsof && \
     rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-11-openjdk/demo /usr/lib/jvm/java-11-openjdk/man /usr/lib/jvm/java-11-openjdk/jre/demo /usr/lib/jvm/java-11-openjdk/jre/man
 
