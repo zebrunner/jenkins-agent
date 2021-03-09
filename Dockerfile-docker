@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.13.2
 
 LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
 
@@ -23,7 +23,18 @@ RUN apk add --no-cache \
     bind-tools \
     gnupg \
     lsof && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-11-openjdk/demo /usr/lib/jvm/java-11-openjdk/man /usr/lib/jvm/java-11-openjdk/jre/demo /usr/lib/jvm/java-11-openjdk/jre/man
+
+
+#==================
+# MkDocs Packages
+#==================
+RUN apk add --no-cache --update py-pip \
+	python3 \
+	gcc \
+	python3-dev \
+	musl-dev && \
+	pip install mkdocs mkdocs-material
 
 # kubectl 
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
