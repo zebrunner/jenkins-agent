@@ -38,8 +38,8 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 ##===============
 ## Install Docker
 ##===============
-#RUN apk add --no-cache docker openrc \
-#    && rc-update add docker boot
+RUN apk add --no-cache docker openrc \
+    && rc-update add docker boot
 
 #===============
 # Set JAVA_HOME
