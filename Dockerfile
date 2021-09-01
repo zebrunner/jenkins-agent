@@ -1,4 +1,4 @@
-FROM alpine:3.13.2
+FROM alpine:edge
 
 LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
 
@@ -25,10 +25,10 @@ RUN apk add --no-cache \
     lsof && \
     rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-11-openjdk/demo /usr/lib/jvm/java-11-openjdk/man /usr/lib/jvm/java-11-openjdk/jre/demo /usr/lib/jvm/java-11-openjdk/jre/man
 
-## ADB part
-#RUN apk add \
-#    android-tools \
-#    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+# ADB part
+RUN apk add \
+    android-tools \
+    --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # kubectl 
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
