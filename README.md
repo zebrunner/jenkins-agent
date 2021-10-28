@@ -1,7 +1,7 @@
 # Zebrunner CE Jenkins slave
 
 ## Overview
-This is official [Zebrunner CE](https://zebrunner.github.io/zebrunner/) slave image. 
+This is official [Zebrunner CE](https://zebrunner.github.io/community-edition) slave image. 
 
 ## Example
 It might be integrated into the environment in different ways: docker-composer, AWS ECS cluster, Kubernetes etc.
