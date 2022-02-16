@@ -2,7 +2,7 @@ FROM jenkins/inbound-agent:latest-jdk11
 
 LABEL maintainer "Vadim Delendik <vdelendik@zebrunner.com>"
 
-END ADBKEY=
+ENV ADBKEY=
 ENV ADBKEY_PUB=
 
 ENV DEBIAN_FRONTEND=noninteractive
