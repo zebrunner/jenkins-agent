@@ -2,9 +2,6 @@ FROM jenkins/inbound-agent:latest-jdk11
 
 LABEL maintainer "Vadim Delendik <vdelendik@zebrunner.com>"
 
-ENV ADBKEY=
-ENV ADBKEY_PUB=
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 USER root
@@ -22,7 +19,5 @@ RUN apt-get -qqy update && \
 
 USER ${user}
 
-COPY files/zebrunner-jenkins-agent /usr/local/bin/zebrunner-jenkins-agent
-
 WORKDIR /home/${user}
-ENTRYPOINT ["zebrunner-jenkins-agent"]
+ENTRYPOINT ["jenkins-agent"]
