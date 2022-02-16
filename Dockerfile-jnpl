@@ -1,6 +1,9 @@
 FROM jenkins/inbound-agent:latest-jdk11
 
-LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
+LABEL maintainer "Vadim Delendik <vdelendik@zebrunner.com>"
+
+END ADBKEY=
+ENV ADBKEY_PUB=
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -18,5 +21,8 @@ RUN apt-get -qqy update && \
 	apt-get -qqy --no-install-recommends install lsof android-tools-adb
 
 USER ${user}
+
+COPY files/zebrunner-jenkins-agent /usr/local/bin/zebrunner-jenkins-agent
+
 WORKDIR /home/${user}
-ENTRYPOINT ["jenkins-agent"]
+ENTRYPOINT ["zebrunner-jenkins-agent"]
