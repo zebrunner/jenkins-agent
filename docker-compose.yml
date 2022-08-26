@@ -5,6 +5,9 @@ services:
     container_name: jenkins-slave
     env_file:
       - variables.env
+    volumes:
+     - "/var/run/docker.sock:/var/run/docker.sock"
+     - "/tmp/zebrunner:/tmp/zebrunner"
     ports:
      - "8000:8000"
     restart: always
