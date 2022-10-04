@@ -4,7 +4,7 @@ start() {
         local pswd=$JENKINS_MASTER_PASSWORD
         unset JENKINS_MASTER_PASSWORD
 
-        java -jar /swarm.jar \
+        java -jar /swarm-client.jar \
             -disableClientsUniqueId \
             -username $JENKINS_MASTER_USERNAME \
             -password $pswd \
