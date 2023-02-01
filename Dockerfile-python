@@ -54,7 +54,7 @@ ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
 # Install Jenkins slave (swarm)
-ADD files/swarm-client-3.34.jar /swarm-client.jar
+ADD files/swarm-client-3.24.jar /swarm-client.jar
 ADD entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
