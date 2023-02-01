@@ -6,7 +6,6 @@ services:
     env_file:
       - variables.env
     volumes:
-     - "/usr/bin/docker:/usr/bin/docker"
      - "/var/run/docker.sock:/var/run/docker.sock"
      - "/tmp/zebrunner:/tmp/zebrunner"
     ports:
