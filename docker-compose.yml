@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   jenkins-slave:
-    image: "public.ecr.aws/zebrunner/jenkins-slave:${TAG_JENKINS_SLAVE}"
+    image: "public.ecr.aws/zebrunner/jenkins-slave:${TAG_JENKINS_SLAVE}-docker"
     container_name: jenkins-slave
     env_file:
       - variables.env
