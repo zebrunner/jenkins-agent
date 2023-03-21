@@ -1,6 +1,6 @@
 FROM alpine:edge
 
-LABEL maintainer "Vadim Delendik <vdelendik@solvd.com>"
+LABEL maintainer "Vadim Delendik <vdelendik@zebrunner.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
