@@ -14,7 +14,7 @@ WORKDIR /root
 #==================
 RUN apk add --no-cache \
     bash \
-    openjdk11 \
+    openjdk17 \
     tzdata \
     curl \
     git \
@@ -23,7 +23,7 @@ RUN apk add --no-cache \
     bind-tools \
     gnupg \
     lsof && \
-    rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-11-openjdk/demo /usr/lib/jvm/java-11-openjdk/man /usr/lib/jvm/java-11-openjdk/jre/demo /usr/lib/jvm/java-11-openjdk/jre/man
+    rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-17-openjdk/demo /usr/lib/jvm/java-17-openjdk/man /usr/lib/jvm/java-17-openjdk/jre/demo /usr/lib/jvm/java-17-openjdk/jre/man
 
 # ADB part
 RUN apk add \
@@ -44,7 +44,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 #===============
 # Set JAVA_HOME
 #===============
-ENV JAVA_HOME="/usr/lib/jvm/java-11-openjdk"
+ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk"
 ENV PATH=$PATH:$JAVA_HOME/bin
 
 #======================
@@ -73,7 +73,7 @@ ENV LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
 # Install Jenkins slave (swarm)
-ADD files/swarm-client-3.24.jar /swarm-client.jar
+ADD files/swarm-client-3.34.jar /swarm-client.jar
 ADD entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
