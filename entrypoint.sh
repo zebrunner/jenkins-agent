@@ -21,6 +21,12 @@ if [ "$AVD" ]; then
     socat tcp-listen:5555,bind=127.0.0.1,fork tcp:$AVD & SOCAT_PID=$!
 fi
 
+ERROR="\033[0;31m"
+SUCCESS="\033[0;32m"
+HEADER="\033[0;36m"
+ATTENTION="\033[0;33m"
+RESET="\033[0m"
+
 swarmUrl="$JENKINS_MASTER_URL/swarm/swarm-client.jar"
 swarmPath="/swarm-client.jar"
 
@@ -33,14 +39,7 @@ attemptTimeout() {
   sleep $period
 }
 
-ERROR="\033[0;31m"
-SUCCESS="\033[0;32m"
-HEADER="\033[0;36m"
-ATTENTION="\033[0;33m"
-RESET="\033[0m"
-
 while [ $(( startTime + SWARM_RESPONSE_TIMEOUT )) -gt "$(date +%s)" ]; do
-
   echo -e "${HEADER}Requesting $swarmPath:${RESET}"
   responseStatus=$( curl --silent --head $swarmUrl | grep -i "HTTP.\+\d\{3\}" | grep -o "\d\d\d.\+\S" )
   responseStatusCode=$(grep -o "\d\d\d" <<< "$responseStatus")
