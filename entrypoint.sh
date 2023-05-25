@@ -5,7 +5,6 @@ start() {
         unset JENKINS_MASTER_PASSWORD
 
         java -jar /swarm-client.jar \
-            -disableClientsUniqueId \
             -username $JENKINS_MASTER_USERNAME \
             -password $pswd \
             -mode $JENKINS_SLAVE_MODE \
