@@ -66,7 +66,7 @@ ENV JENKINS_MASTER_USERNAME="jenkins" \
     JENKINS_SLAVE_WORKERS="1" \
     JENKINS_SLAVE_LABELS="" \
     AVD="" \
-    SWARM_RESPONSE_TIMEOUT=15
+    SWARM_RESPONSE_TIMEOUT=60
 
 # Set the lang, you can also specify it as as environment variable through docker-compose.yml
 ENV LANG=en_US.UTF-8 \

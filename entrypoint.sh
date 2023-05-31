@@ -28,7 +28,7 @@ swarmUrl="$JENKINS_MASTER_URL/swarm/swarm-client.jar"
 
 # Time variables
 startTime=$(date +%s)
-period=3
+period=6
 
 # State of swarm file (0 is OK, 1 is NOK)
 success=1
