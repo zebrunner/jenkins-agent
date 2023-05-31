@@ -8,7 +8,7 @@ start() {
 
         java -jar "$1" \
             -retry 5 \
-            -username "adminn" \
+            -username $JENKINS_MASTER_USERNAME \
             -password $pswd \
             -mode $JENKINS_SLAVE_MODE \
             -name $JENKINS_SLAVE_NAME \
