@@ -65,15 +65,15 @@ ENV JENKINS_MASTER_USERNAME="jenkins" \
     JENKINS_SLAVE_NAME="swarm-$RANDOM" \
     JENKINS_SLAVE_WORKERS="1" \
     JENKINS_SLAVE_LABELS="" \
-    AVD=""
+    AVD="" \
+    SWARM_RESPONSE_TIMEOUT=60
 
 # Set the lang, you can also specify it as as environment variable through docker-compose.yml
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8\
     LC_ALL=en_US.UTF-8
 
-# Install Jenkins slave (swarm)
-ADD files/swarm-client-3.34.jar /swarm-client.jar
+# Copy entrypoint script
 ADD entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
