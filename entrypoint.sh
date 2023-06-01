@@ -3,10 +3,11 @@
 set -o pipefail
 
 start() {
+        local clientPath=$1
         local pswd=$JENKINS_MASTER_PASSWORD
         unset JENKINS_MASTER_PASSWORD
 
-        java -jar "$1" \
+        java -jar $clientPath \
             -retry 5 \
             -username $JENKINS_MASTER_USERNAME \
             -password $pswd \
