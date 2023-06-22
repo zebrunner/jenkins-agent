@@ -65,13 +65,10 @@ while [ $(( startTime + SWARM_RESPONSE_TIMEOUT )) -gt "$(date +%s)" ]; do
       continue
     fi
 
-    # Set swarm file path
-    swarmPath="/swarm-client-$masterSwarmVersion.jar"
-
     # Check if swarm file exists and has a non-zero size
     echo -e "\nChecking swarm file size and existence:"
-    if [ -s "$swarmPath" ]; then
-      echo -e "File '$swarmPath' of non-zero size was found"
+    if [ -s "$SMARM_CLIENT_PATH" ]; then
+      echo -e "File '$SMARM_CLIENT_PATH' of non-zero size was found"
       success=0
       break
     else
@@ -80,21 +77,21 @@ while [ $(( startTime + SWARM_RESPONSE_TIMEOUT )) -gt "$(date +%s)" ]; do
 
     # Download swarm-client file from master
     echo -e "\nDownloading swarm file:"
-    downloadError=$( curl --fail-with-body -L "$swarmUrl" --output "$swarmPath" 2> >(tee /dev/stderr) )
+    downloadError=$( curl --fail-with-body -L "$swarmUrl" --output "$SMARM_CLIENT_PATH" 2> >(tee /dev/stderr) )
     downloadStatus=$?
     # Check download response state
     if [ "$downloadStatus" -eq 0 ]; then
-      echo -e "'$swarmPath' file was successfully downloaded"
+      echo -e "'$SMARM_CLIENT_PATH' file was successfully downloaded"
     else
-      echo -e "'$swarmPath' file not downloaded.\nCurl exit code ($downloadStatus)\nCurl error:\n$downloadError"
+      echo -e "'$SMARM_CLIENT_PATH' file not downloaded.\nCurl exit code ($downloadStatus)\nCurl error:\n$downloadError"
       attemptTimeout $period
       continue
     fi
 
     # Check downloaded file size and existence
     echo -e "\nChecking downloaded swarm file size and existence:"
-    if [ -s "$swarmPath" ]; then
-      echo -e "File '$swarmPath' of non-zero size was found"
+    if [ -s "$SMARM_CLIENT_PATH" ]; then
+      echo -e "File '$SMARM_CLIENT_PATH' of non-zero size was found"
       success=0
       break
     else
@@ -112,7 +109,7 @@ if [ "$success" -eq 0 ]; then
   echo -e "\n\tStarting Swarm:\n"
 
   # Starting swarm-client
-  swarmMessage=$( start "$swarmPath" 2> >(tee /dev/stderr) )
+  swarmMessage=$( start "$SMARM_CLIENT_PATH" 2> >(tee /dev/stderr) )
   swarmStatus=$?
   if [ "$swarmStatus" -ne 0 ]; then
     echo -e "Swarm client error code '$swarmStatus':\n$swarmMessage"
