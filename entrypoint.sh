@@ -54,7 +54,7 @@ while [ $(( startTime + SWARM_RESPONSE_TIMEOUT )) -gt "$(date +%s)" ]; do
 
     # Request from master version of Swarm plugin
     echo -e "\nRequesting master swarm plugin version:"
-    masterSwarmVersion=$(curl --silent --fail-with-body --user  "$ADMIN_USER":"$ADMIN_PASS" "$JENKINS_MASTER_URL/pluginManager/api/xml?depth=1&xpath=//plugin\[shortName\[text()='swarm'\]\]/version" | sed 's/<version>\(.*\)<\/version>/\1/' )
+    masterSwarmVersion=$(curl --silent --fail-with-body --user "$JENKINS_MASTER_USERNAME":"$pswd" "$JENKINS_MASTER_URL/pluginManager/api/xml?depth=1&xpath=//plugin\[shortName\[text()='swarm'\]\]/version" | sed 's/<version>\(.*\)<\/version>/\1/' )
     masterSwarmResponse=$?
     # Check response state
     if [ "$masterSwarmResponse" -eq 0 ]; then
