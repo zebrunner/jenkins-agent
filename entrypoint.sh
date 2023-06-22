@@ -68,6 +68,7 @@ while [ $(( startTime + SWARM_RESPONSE_TIMEOUT )) -gt "$(date +%s)" ]; do
     # Set swarm file path
     swarmPath="/tmp/swarm-client-$masterSwarmVersion.jar"
 
+
     # Check if swarm file exists and has a non-zero size
     echo -e "\nChecking swarm file size and existence:"
     if [ -s "$swarmPath" ]; then
