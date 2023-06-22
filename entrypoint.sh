@@ -51,23 +51,8 @@ while [ $(( startTime + SWARM_RESPONSE_TIMEOUT )) -gt "$(date +%s)" ]; do
   echo -e "'$swarmUrl' response is '$responseStatus'"
 
   if [ -n "$responseStatusCode" ] && [ "$responseStatusCode" -eq 200 ]; then
-
-    # Request from master version of Swarm plugin
-    echo -e "\nRequesting master swarm plugin version:"
-    masterSwarmVersion=$(curl --silent --fail-with-body --user "$JENKINS_MASTER_USERNAME":"$pswd" "$JENKINS_MASTER_URL/pluginManager/api/xml?depth=1&xpath=//plugin\[shortName\[text()='swarm'\]\]/version" | sed 's/<version>\(.*\)<\/version>/\1/' )
-    masterSwarmResponse=$?
-    # Check response state
-    if [ "$masterSwarmResponse" -eq 0 ]; then
-      echo "Master swarm plugin version is $masterSwarmVersion"
-    else
-      echo "Can't determine master swarm plugin version"
-      attemptTimeout $period
-      continue
-    fi
-
     # Set swarm file path
-    swarmPath="/tmp/swarm-client-$masterSwarmVersion.jar"
-
+    swarmPath="/tmp/swarm-client.jar"
 
     # Check if swarm file exists and has a non-zero size
     echo -e "\nChecking swarm file size and existence:"
@@ -131,10 +116,6 @@ else
     echo -e "Swarm url response error:\n\t$responseStatus" 2> >(tee /dev/stderr)
   fi
 
-  if [ -n "$masterSwarmResponse" ]; then
-    echo -e "Master swarm plugin version request failed:\n\t$masterSwarmVersion" 2> >(tee /dev/stderr)
-  fi
-
   if [ -n "$downloadError" ]; then
     echo -e "Download error ($downloadStatus):\n\t$downloadError" 2> >(tee /dev/stderr)
   fi
@@ -145,7 +126,7 @@ else
   echo "---"
 
   # Clear all occurrences of swarm client file by name pattern
-  echo -e "\n*********** Removing all swarm-client*.jar files ***********"
-  find . -name "swarm-client*.jar" -exec rm -fv {} \;
+  echo -e "\n*********** Removing $swarmPath file ***********"
+  rm -f $swarmPath
   exit 1
 fi
