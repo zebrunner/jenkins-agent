@@ -25,22 +25,6 @@ RUN apk add --no-cache \
     lsof && \
     rm -rf /var/lib/apt/lists/* /usr/lib/jvm/java-17-openjdk/demo /usr/lib/jvm/java-17-openjdk/man /usr/lib/jvm/java-17-openjdk/jre/demo /usr/lib/jvm/java-17-openjdk/jre/man
 
-
-#==================
-# MkDocs Packages
-#==================
-RUN apk add --no-cache --update py-pip \
-	python3 \
-	gcc \
-	python3-dev \
-	musl-dev && \
-	pip install mkdocs mkdocs-material
-
-# kubectl 
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
-    kubectl version --client
-
 #===============
 # Install Docker
 #===============
@@ -72,8 +56,7 @@ ENV JENKINS_MASTER_USERNAME="jenkins" \
     JENKINS_SLAVE_WORKERS="1" \
     JENKINS_SLAVE_LABELS="" \
     AVD="" \
-    SWARM_RESPONSE_TIMEOUT=60 \
-    SMARM_CLIENT_PATH=/tmp/swarm-client.jar
+    SWARM_RESPONSE_TIMEOUT=60
 
 # Set the lang, you can also specify it as as environment variable through docker-compose.yml
 ENV LANG=en_US.UTF-8 \
