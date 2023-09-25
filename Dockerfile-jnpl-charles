@@ -1,0 +1,24 @@
+FROM public.ecr.aws/zebrunner/jenkins-slave:2.0.1-jnpl
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+USER root
+
+#=============
+# Set WORKDIR
+#=============
+WORKDIR /root
+
+#==================
+# Install Charles Proxy
+#==================
+RUN apt-get -qqy update && \
+    apt-get -qqy install wget && \
+    wget -qO- https://www.charlesproxy.com/packages/apt/charles-repo.asc | tee /etc/apt/keyrings/charles-repo.asc && \
+    sh -c 'echo deb [signed-by=/etc/apt/keyrings/charles-repo.asc] https://www.charlesproxy.com/packages/apt/ charles-proxy main > /etc/apt/sources.list.d/charles.list' && \
+    apt-get -qqy update && \
+    apt-get -qqy install charles-proxy-beta && \
+    mkdir -p /tools/charles/bin && \
+    ln -s /usr/bin/charles /tools/charles/bin/
+
+ENTRYPOINT ["jenkins-agent"]
