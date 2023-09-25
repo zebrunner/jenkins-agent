@@ -14,10 +14,12 @@ WORKDIR /root
 #==================
 RUN apt-get -qqy update && \
     apt-get -qqy install wget && \
+    mkdir -p /etc/apt/keyrings && \
     wget -qO- https://www.charlesproxy.com/packages/apt/charles-repo.asc | tee /etc/apt/keyrings/charles-repo.asc && \
     sh -c 'echo deb [signed-by=/etc/apt/keyrings/charles-repo.asc] https://www.charlesproxy.com/packages/apt/ charles-proxy main > /etc/apt/sources.list.d/charles.list' && \
     apt-get -qqy update && \
-    apt-get -qqy install charles-proxy-beta && \
+    apt-cache search charles && \
+    apt-get -qqy install charles-proxy && \
     mkdir -p /tools/charles/bin && \
     ln -s /usr/bin/charles /tools/charles/bin/
 
