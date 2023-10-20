@@ -1,4 +1,4 @@
-FROM public.ecr.aws/zebrunner/jenkins-slave:2.0.1-jnpl
+FROM public.ecr.aws/zebrunner/jenkins-slave:2.1-jnpl
 
 ENV DEBIAN_FRONTEND=noninteractive
 
