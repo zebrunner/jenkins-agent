@@ -35,6 +35,6 @@ RUN npm i --location=global appium \
     && appium driver install --source npm @dlenroc/appium-roku-driver \
     && appium -v && appium driver list
 
-RUN appium
+RUN appium -v
 
 ENTRYPOINT ["jenkins-agent"]
