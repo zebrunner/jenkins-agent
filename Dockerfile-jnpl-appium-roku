@@ -1,0 +1,40 @@
+FROM public.ecr.aws/zebrunner/jenkins-slave:2.1-jnpl
+
+ENV PLATFORM_NAME=ROKU
+
+USER root
+
+#=============
+# Set WORKDIR
+#=============
+WORKDIR /root
+
+#==================
+# Install Node
+#==================
+ENV NVM_DIR=/.nvm
+ENV NODE_VERSION=v18.19.0
+
+RUN mkdir -p $NVM_DIR \
+    && apt-get -qqy update \
+    && apt-get -qqy install wget \
+    && wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm use $NODE_VERSION
+
+ENV NODE_PATH=$NVM_DIR/versions/node/$NODE_VERSION/bin
+ENV PATH=$NODE_PATH:$PATH
+
+RUN npm -v && node -v
+
+#==================
+# Install Appium
+#==================
+RUN npm i --location=global appium \
+    && appium driver install --source npm @dlenroc/appium-roku-driver \
+    && appium -v && appium driver list
+
+RUN appium
+
+ENTRYPOINT ["jenkins-agent"]
