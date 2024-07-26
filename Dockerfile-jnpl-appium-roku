@@ -37,4 +37,15 @@ RUN npm i --location=global appium \
 
 RUN appium -v
 
+#==================
+# Install charles
+#==================
+RUN apt-get update \
+	&& apt-get -qqy install gnupg \
+	&& wget -q -O - https://www.charlesproxy.com/packages/apt/PublicKey | apt-key add - \
+	&& sh -c 'echo deb https://www.charlesproxy.com/packages/apt/ charles-proxy main > /etc/apt/sources.list.d/charles.list' \
+	&& apt-get update \
+	&& apt-get -qqy install charles-proxy \
+	&& charles -version
+
 ENTRYPOINT ["jenkins-agent"]
